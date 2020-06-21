@@ -74,6 +74,10 @@
 #define TWO 0xBA
 // 10101110
 #define THREE 0xAE
+// 01010110
+#define HAITCH 0x56
+// 00010110
+#define EN 0x16
 
 void digit(unsigned char p1, unsigned char p3)
 {
@@ -87,8 +91,8 @@ int main() {
     while(1)
     {
         digit(ZERO, D0);
-        digit(ONE, D1);
-        digit(TWO, D2);
-        digit(THREE, D3);
+        digit(HAITCH, D1);
+        digit(EN, D2);
+        digit(ZERO, D3);
     }
 }

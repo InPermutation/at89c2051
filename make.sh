@@ -1,5 +1,7 @@
 #!/bin/bash
 set -ex
 
-sdcc blink.c
-packihx blink.ihx > blink.hex
+[ -f "$1.c" ]
+
+sdcc "$1.c"
+packihx "$1.ihx" > "$1.hex"

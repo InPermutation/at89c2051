@@ -1,4 +1,6 @@
 #!/bin/bash
 set -ex
 
-minipro -p AT89C2051 -w blink.hex
+# usage: ./write.sh blink.hex
+
+minipro -p AT89C2051 -w $1

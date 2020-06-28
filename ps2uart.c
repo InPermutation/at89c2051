@@ -1,5 +1,11 @@
 #include <8051.h>
 
+// UART is on pins 2 (RX) and 3 (TX). Connect them to TX and RX of the other device.
+// Baud rate is explained in uart_init - with my 7.3728MHz oscillator, it's 19.2kbps
+// PS/2 has 4 pins. Connect Vcc and GND to the power pins.
+// PS/2 CLK goes to pin 6 (INT0) and +DATA goes to pin 7 (P3.3)
+// P3.4-3.7 are unused. P1 is also unused... for now!
+
 void uart_init()
 {
     TMOD = 0x20;
@@ -19,21 +25,6 @@ void putchar(char ch)
     SBUF = ch;
     while (TI == 0) { }
     TI = 0;
-}
-
-void puts(const char *s)
-{
-    while(*s) {
-        putchar(*s);
-        ++s;
-    }
-}
-
-const char* HEXLUT = "0123456789ABCDEF";
-
-void puthex(char b) {
-    putchar(HEXLUT[ (b & 0xf0) >> 4]);
-    putchar(HEXLUT[ (b & 0x0f)]);
 }
 
 char decode_scancode(char ch) {
@@ -151,10 +142,7 @@ void ps2_advance_writer() __interrupt (IE0_VECTOR) {
 
 void main()
 {
-    P1 = 0x00;
-
     uart_init();
-    puts("PS2 to UART\n");
 
     EA = 1; // enable interrupts
     EX0 = 1; // enable external interrupt 0
